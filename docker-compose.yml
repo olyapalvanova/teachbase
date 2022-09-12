@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  db:
+    container_name: teachbase
+    image: "postgres:14.5"
+    restart: unless-stopped
+    ports:
+    - "3306:3306"
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    container_name: web_teachbase
+    build: .
+    image: web_teachbase
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - src/.env
+
+volumes:
+  postgres_data:

@@ -30,8 +30,7 @@ SECRET_KEY = env.str('DJANGO_SECRET_KEY', default=DEFAULT_SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DJANGO_DEBUG', True)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 # Application definition
 
@@ -44,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 
-    'apps.courses',
+    'apps.courses.apps.CoursesConfig',
+    'services.apps.ServicesConfig',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env.str('DB_NAME', 'teachbase'),
         'USER': env.str('DB_USER', 'postgres'),
-        'PASSWORD': env.str('DB_PASSWORD', ''),
+        'PASSWORD': env.str('DB_PASSWORD', 'postgres'),
         'HOST': env.str('DB_HOST', 'localhost'),
         'PORT': env.int('DB_PORT', 5432),
         'ATOMIC_REQUESTS': True,
