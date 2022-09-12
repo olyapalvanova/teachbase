@@ -9,6 +9,7 @@ services:
     environment:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=teachbase
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -24,6 +25,10 @@ services:
       - db
     env_file:
       - src/.env
+    command: bash -c "
+      python src/manage.py migrate
+      && python src/manage.py runserver 0.0.0.0:8000
+      "
 
 volumes:
   postgres_data:
